@@ -31,10 +31,12 @@ jobs:
       run: |
         echo "Construyendo la imagen"
         docker build -t rainelu/docker-graphql:0.0.2 .
+        docker build -t rainelu/docker-graphql .
         
     - name: Docker Push Image
       run: |
         docker push rainelu/docker-graphql:0.0.2
+        docker push rainelu/docker-graphql
       
 #     - name: Build the Docker image
 #       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
