@@ -18,25 +18,30 @@ jobs:
       with:
         fetch-depth: 0
         
+    - name: Git Semantic Version
+      uses: PaulHatch/semantic-version@v4.0.3
+      with:
+        major_pattern: "major:"
+        minor_pattern: "feat:"
+        format: "${major}.${minor}.${patch}-prerelease${increment}"
+      id: version
+      
     - name: Docker Login
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: | 
-        echo "Iniciando Login"
+        echo "Nueva Version: $NEW_VERSION"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
-        echo "Fin del Login"
         
-    - name: Construir imagen
-      run: |
-        echo "Construyendo la imagen"
-        docker build -t rainelu/docker-graphql:0.0.2 .
-        docker build -t rainelu/docker-graphql .
+#     - name: Construir imagen
+#       run: |
+#         echo "Construyendo la imagen"
+#         docker build -t rainelu/docker-graphql:0.0.2 .
+#         docker build -t rainelu/docker-graphql .
         
-    - name: Docker Push Image
-      run: |
-        docker push rainelu/docker-graphql:0.0.2
-        docker push rainelu/docker-graphql
-      
-#     - name: Build the Docker image
-#       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
+#     - name: Docker Push Image
+#       run: |
+#         docker push rainelu/docker-graphql:0.0.2
+#         docker push rainelu/docker-graphql
