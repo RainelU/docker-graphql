@@ -30,18 +30,20 @@ jobs:
       env:
         DOCKER_USER: ${{ secrets.DOCKER_USER }}
         DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: | 
-        echo "Nueva Version: $NEW_VERSION"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         
     - name: Construir imagen
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         echo "Construyendo la imagen"
         docker build -t rainelu/docker-graphql:$NEW_VERSION .
         docker build -t rainelu/docker-graphql .
         
     - name: Docker Push Image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         docker push rainelu/docker-graphql:$NEW_VERSION
         docker push rainelu/docker-graphql
