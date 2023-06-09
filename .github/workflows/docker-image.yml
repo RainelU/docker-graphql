@@ -35,13 +35,13 @@ jobs:
         echo "Nueva Version: $NEW_VERSION"
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
         
-#     - name: Construir imagen
-#       run: |
-#         echo "Construyendo la imagen"
-#         docker build -t rainelu/docker-graphql:0.0.2 .
-#         docker build -t rainelu/docker-graphql .
+    - name: Construir imagen
+      run: |
+        echo "Construyendo la imagen"
+        docker build -t rainelu/docker-graphql:$NEW_VERSION .
+        docker build -t rainelu/docker-graphql .
         
-#     - name: Docker Push Image
-#       run: |
-#         docker push rainelu/docker-graphql:0.0.2
-#         docker push rainelu/docker-graphql
+    - name: Docker Push Image
+      run: |
+        docker push rainelu/docker-graphql:$NEW_VERSION
+        docker push rainelu/docker-graphql
